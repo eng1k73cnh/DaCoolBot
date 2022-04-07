@@ -1,17 +1,24 @@
 # DaCoolBot:tm:
 
 Discord bot made for the purpose of creating a message that all members of the same role can edit
-## TODO
-- Make message as an embed
+
 ## Usage
-Only supports slash commands for convenience
-#### /reminder: Creates a new reminder message
+Only supports slash commands for convenience  
+##### `/make`: Creates a new reminder message
 Options:
-- **message** (type:string) (required):  
-Enter message content for the bot the create
-#### /edit: Edit an existing reminder message  
+* `message` (type:string) (required):  
+(Pastebin URL containing) reminder message content
+* `mention` (type:boolean):
+Mentions everyone after a message is created
+* `note` (type:string):
+Mention note (usless if `mention` is false/not chosen)
+##### `/edit`: Edit an existing reminder message  
 Options:
-- **id** (type:string) (required):  
+* `id` (type:string) (required):  
 ID of the message that needs to be edited
-- **pastebin** (type:string) (required):  
-URL of the [Pastebin](pastebin.com) that contains the message content
+* `message` (type:string) (required):  
+(Pastebin URL containing) reminder message content
+* `mention` (type:boolean):
+Mentions everyone after a message is created
+* `note` (type:string):
+Mention note (usless if `mention` is false/not chosen)
