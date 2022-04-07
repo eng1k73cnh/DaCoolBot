@@ -1,6 +1,11 @@
 # DaCoolBot:tm:
 
-Discord bot made for the purpose of creating a message that all members of the same role can edit
+Discord bot made for the purpose of creating a message that all members of the same selected role can edit  
+Currently being deployed and used in a local server
+
+## Demo
+![Discord_HK0QDyT0pa](https://user-images.githubusercontent.com/77577746/162233085-abc647ac-b70e-4d45-be41-67b4e0230ef8.gif)
+
 
 ## Usage
 Only supports slash commands for convenience  
