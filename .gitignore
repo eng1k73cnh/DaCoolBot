@@ -1,5 +1,12 @@
+# Node modules
 node_modules
+
+# Local VSCode config
 .vscode
+
+# Compiled files
 dist
+
+# Environment files
 config.json
 .env
