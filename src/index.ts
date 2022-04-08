@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Client, GuildMemberRoleManager, Intents } from "discord.js";
-import { token } from "./config.json";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -111,4 +112,4 @@ client.on("interactionCreate", async interaction => {
 	}
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
