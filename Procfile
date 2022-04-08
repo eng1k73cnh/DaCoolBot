@@ -1,1 +1,1 @@
-worker: npm run postinstall && npm run start
+worker: npm run start
