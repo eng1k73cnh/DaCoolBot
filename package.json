@@ -1,4 +1,14 @@
 {
+	"name": "dacoolbot",
+	"description": "Eng 1 K73 CNH's bot",
+	"repository": "https://github.com/eng1k73cnh/DaCoolBot",
+	"version": "2.1.0",
+	"scripts": {
+		"start": "node dist/index.js",
+		"postinstall": "npm run build",
+		"build": "tsc",
+		"tsc": "./node_modules/typescript/bin/tsc"
+	},
 	"dependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.18.0",
 		"@typescript-eslint/parser": "^5.18.0",
