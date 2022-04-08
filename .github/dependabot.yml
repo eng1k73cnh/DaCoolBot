@@ -10,5 +10,4 @@ updates:
     schedule:
       interval: "daily"
     assignees:
-    - "kyrie25"
-    - "AuSanto"
+    - "eng1k73cnh/bot-maintainer"
