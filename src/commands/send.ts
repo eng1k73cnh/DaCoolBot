@@ -18,11 +18,11 @@ module.exports = {
 		) {
 			const messageContent = options.getString("message");
 			console.log(
-				`${user.username} sent ${messageContent} at ${new Date().toLocaleString(
+				`${user.tag} sent "${messageContent}" at ${new Date().toLocaleString(
 					"en-VN"
 				)}`
 			);
-			channel.send = messageContent;
+			await channel.send(messageContent);
 			await interaction.reply({
 				content: "Anonymous message sent",
 				ephemeral: true
