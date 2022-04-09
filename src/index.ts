@@ -8,7 +8,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.once("ready", () => {
 	client.user.setPresence({
-		activities: [{ name: "your mom", type: "WATCHING" }],
+		activities: [{ name: "your bathroom", type: "WATCHING" }],
 		status: "idle"
 	});
 	console.log("Ready!");
