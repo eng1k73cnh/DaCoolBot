@@ -1,7 +1,6 @@
 # DaCoolBot:tm:
 
-Discord bot made for the purpose of creating a message that all members of the same selected role can edit  
-Currently being deployed and used in a local server
+Discord bot made for the purpose of creating a message that all members of the same selected role can edit Currently being deployed and used in a local server
 
 ## Demo
 
@@ -15,8 +14,7 @@ Only supports slash commands for convenience
 
 Options:
 
-- `message` (type:string) (required):  
-  (Pastebin URL containing) reminder message content
+- `message` (type:string) (required): (Pastebin URL containing) reminder message content
 - `mention` (type:boolean): Mentions everyone after a message is created
 - `note` (type:string): Mention note (usless if `mention` is false/not chosen)
 
@@ -24,9 +22,13 @@ Options:
 
 Options:
 
-- `id` (type:string) (required):  
-  ID of the message that needs to be edited
-- `message` (type:string) (required):  
-  (Pastebin URL containing) reminder message content
+- `id` (type:string) (required): ID of the message that needs to be edited
+- `message` (type:string) (required): (Pastebin URL containing) reminder message content
 - `mention` (type:boolean): Mentions everyone after a message is created
 - `note` (type:string): Mention note (usless if `mention` is false/not chosen)
+
+##### `/send`: Write an anonymous message (only works in the selected channel)
+
+Options:
+
+- `message` (type:string) (required): Message content
