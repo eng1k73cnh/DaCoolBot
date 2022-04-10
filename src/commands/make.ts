@@ -55,10 +55,13 @@ module.exports = {
 			} else await interaction.reply(message);
 
 			if (options.getBoolean("mention")) {
-				let mentionMsg = `@everyone DaCoolReminder is updated for ${new Date().toLocaleString(
-					"en-US",
-					{ weekday: "long", month: "long", day: "numeric" }
-				)}`;
+				let mentionMsg = `@everyone DaCoolReminder is updated for ${new Date(
+					Date.now() + 7 * 3600 * 1000
+				).toLocaleString("en-US", {
+					weekday: "long",
+					month: "long",
+					day: "numeric"
+				})}`;
 				if (note) mentionMsg = `${mentionMsg} (${note})`;
 
 				await channel.send(mentionMsg);

@@ -20,9 +20,9 @@ module.exports = {
 		) {
 			const messageContent = options.getString("message");
 			console.log(
-				`${user.tag} sent "${messageContent}" at ${new Date().toLocaleString(
-					"en-VN"
-				)}`
+				`${user.tag} sent "${messageContent}" at ${new Date(
+					Date.now() + 7 * 3600 * 1000
+				).toLocaleString("vi-VN")}`
 			);
 			await channel.send(messageContent);
 			await interaction.reply({
