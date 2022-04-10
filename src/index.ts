@@ -2,7 +2,12 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { Client, Collection, Intents } from "discord.js";
 import * as dotenv from "dotenv";
-import fs from "node:fs";
+
+// Why does CommonJS and ES Module have to coexist
+import { default as edit } from "../dist/commands/edit.js";
+import { default as make } from "../dist/commands/make.js";
+import { default as send } from "../dist/commands/send.js";
+import { default as set } from "../dist/commands/set.js";
 
 dotenv.config({ path: ".env.dev" });
 
@@ -17,18 +22,17 @@ client.once("ready", () => {
 });
 
 client.commands = new Collection();
-const commands = [],
-	commandFiles = fs
-		.readdirSync("./dist/commands")
-		.filter(file => file.endsWith(".js"));
+const commands = [
+	edit.data.toJSON(),
+	make.data.toJSON(),
+	send.data.toJSON(),
+	set.data.toJSON()
+];
 
-for (const file of commandFiles) {
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.data.name, command);
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	commands.push(require(`./commands/${file}`).data.toJSON());
-}
+client.commands.set(edit.data.name, edit);
+client.commands.set(make.data.name, make);
+client.commands.set(send.data.name, send);
+client.commands.set(set.data.name, set);
 
 client.on("guildCreate", guild => {
 	new REST({ version: "9" })

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, Interaction } from "discord.js";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("send")
 		.setDescription("Write an anonymous message (only works in The Void)")

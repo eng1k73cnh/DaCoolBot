@@ -3,11 +3,11 @@
 	"compilerOptions": {
 		"outDir": "./dist/",
 		"typeRoots": ["node_modules/@types"],
-		"resolveJsonModule": true,
-		"module": "CommonJS",
+		"module": "esnext",
 		"target": "ES2021",
 		"esModuleInterop": true,
 		"removeComments": true,
+		"moduleResolution": "node",
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
 		"noFallthroughCasesInSwitch": true,
