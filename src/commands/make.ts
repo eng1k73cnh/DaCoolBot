@@ -45,7 +45,7 @@ module.exports = {
 						await interaction.reply(response.data);
 					})
 					.catch(async error => {
-						console.log(error);
+						console.error(error);
 						await interaction.reply({
 							content:
 								"Something was messed up, double check your Pastebin URL",

@@ -58,7 +58,7 @@ module.exports = {
 								});
 							})
 							.catch(async error => {
-								console.log(error);
+								console.error(error);
 								await interaction.reply({
 									content:
 										"Something was messed up, double check your Pastebin URL",
@@ -74,7 +74,7 @@ module.exports = {
 					}
 				})
 				.catch(async error => {
-					console.log(error);
+					console.error(error);
 					await interaction.reply({
 						content: "Reminder message with given ID is not found",
 						ephemeral: true
