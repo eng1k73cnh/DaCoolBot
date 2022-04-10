@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
 import axios from "axios";
 
-export default {
+module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("edit")
 		.setDescription("Edit a reminder message")

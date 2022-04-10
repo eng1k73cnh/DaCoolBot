@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 import { ActivityTypes } from "discord.js/typings/enums";
 
-export default {
+module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("set")
 		.setDescription("Set the bot's presence status")

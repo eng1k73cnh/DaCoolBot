@@ -2,11 +2,11 @@
 	"exclude": ["node_modules"],
 	"compilerOptions": {
 		"typeRoots": ["node_modules/@types"],
-		"module": "esnext",
+		"resolveJsonModule": true,
+		"module": "CommonJS",
 		"target": "ES2021",
 		"esModuleInterop": true,
 		"removeComments": true,
-		"moduleResolution": "node",
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
 		"noFallthroughCasesInSwitch": true,

@@ -1,21 +1,19 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import * as dotenv from "dotenv";
-
-// Why does CommonJS and ES Module have to coexist
-import { default as edit } from "../dist/commands/edit.js";
-import { default as make } from "../dist/commands/make.js";
-import { default as send } from "../dist/commands/send.js";
-import { default as set } from "../dist/commands/set.js";
+import fs from "node:fs";
 
 dotenv.config();
 
-const commands = [
-	edit.data.toJSON(),
-	make.data.toJSON(),
-	send.data.toJSON(),
-	set.data.toJSON()
-];
+const commands = [],
+	commandFiles = fs
+		.readdirSync("./dist/commands")
+		.filter(file => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	commands.push(require(`./commands/${file}`).data.toJSON());
+}
 
 new REST({ version: "9" })
 	.setToken(process.env.TOKEN)
