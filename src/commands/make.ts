@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { GuildMemberRoleManager } from "discord.js";
+import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
 import axios from "axios";
 
 module.exports = {
@@ -26,7 +26,8 @@ module.exports = {
 				)
 				.setRequired(false)
 		),
-	async execute(interaction) {
+	async execute(interaction: Interaction<CacheType>) {
+		if (!interaction.isCommand()) return;
 		const { member, options, user, channel } = interaction;
 		if (
 			(member.roles as GuildMemberRoleManager).cache.some(

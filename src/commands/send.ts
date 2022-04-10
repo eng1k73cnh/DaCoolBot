@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { CacheType, Interaction } from "discord.js";
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,7 +11,8 @@ module.exports = {
 				.setDescription("Message content")
 				.setRequired(true)
 		),
-	async execute(interaction) {
+	async execute(interaction: Interaction<CacheType>) {
+		if (!interaction.isCommand()) return;
 		const { options, user, channel } = interaction;
 		if (
 			channel.id === "906124940003139594" ||
