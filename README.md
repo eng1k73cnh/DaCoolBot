@@ -54,7 +54,7 @@ Only supports slash commands for convenience
   - Returns a screenshot of the spreadsheet if provided a Google Spreadsheets URL
     - Utilizes [capture-website](https://github.com/sindresorhus/capture-website) and [imgur](https://github.com/KenEucker/imgur)
   - Else returns the given message content
-- `mention` (type:boolean): Mentions everyone after a message is created
+- `mention` (boolean): Mentions everyone after a message is created
   - Default output:
   ```typescript
   `@everyone DaCoolReminder is updated for ${new Date(
@@ -66,7 +66,7 @@ Only supports slash commands for convenience
   	year: "numeric"
   })}`;
   ```
-- `note` (type:string): Mention note (not used if `mention` is false/not chosen)
+- `note` (string): Mention note (not used if `mention` is false/not chosen)
   - Appends the note at the end of the mention message above (wrapped in parentheses)
   </details>
 
