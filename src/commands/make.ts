@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
 import axios from "axios";
+import { ImgurClient } from "imgur";
+import fs from "node:fs";
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +11,9 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName("message")
-				.setDescription("(Pastebin URL containing) Reminder message content")
+				.setDescription(
+					"(Pastebin / Google Spreadsheets URL containing) eminder message content"
+				)
 				.setRequired(true)
 		)
 		.addBooleanOption(option =>
@@ -52,6 +56,56 @@ module.exports = {
 							ephemeral: true
 						});
 					});
+			} else if (
+				message.match(
+					/^(http(s))?[:][\\/][\\/]docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
+				)
+			) {
+				await interaction.reply(
+					"Stage 1/2\n[ ] Taking screenshot...\n[ ] Upload to Imgur"
+				);
+				const captureWebsite = await (Function(
+						"return import('capture-website')"
+					)() as Promise<typeof import("capture-website")>),
+					imgurClient = new ImgurClient({
+						clientId: process.env.IMGUR_CLIENT_ID,
+						clientSecret: process.env.IMGUR_CLIENT_SECRET
+					});
+
+				await captureWebsite.default
+					.file(message, "test.png", {
+						element: "#docs-editor-container",
+						hideElements: ["div[role='navigation']"]
+					})
+					.then(() =>
+						interaction.editReply(
+							"Stage 2/2\n[x] Taken screenshot\n[ ] Uploading to Imgur..."
+						)
+					);
+				await imgurClient
+					.upload({
+						image: fs.createReadStream("test.png") as unknown as ReadableStream,
+						type: "stream"
+					})
+					.then(async response => {
+						await interaction.editReply(
+							`DaCoolReminder (as of ${new Date(
+								Date.now() + 7 * 3600 * 1000
+							).toLocaleString("en-US", {
+								weekday: "long",
+								month: "long",
+								day: "numeric",
+								year: "numeric"
+							})})\n${response.data.link}`
+						);
+						fs.rmSync("test.png", {
+							force: true
+						});
+					})
+					.catch(async error => {
+						console.error(error);
+						await interaction.editReply("Failed to upload to Imgur");
+					});
 			} else await interaction.reply(message);
 
 			if (options.getBoolean("mention")) {
@@ -60,7 +114,8 @@ module.exports = {
 				).toLocaleString("en-US", {
 					weekday: "long",
 					month: "long",
-					day: "numeric"
+					day: "numeric",
+					year: "numeric"
 				})}`;
 				if (note) mentionMsg = `${mentionMsg} (${note})`;
 
