@@ -1,10 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
 	CacheType,
-	Client,
 	ExcludeEnum,
 	GuildMemberRoleManager,
-	Intents,
 	Interaction,
 	PresenceStatusData
 } from "discord.js";
@@ -53,14 +51,14 @@ module.exports = {
 		),
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isCommand()) return;
-		const { options, user, member } = interaction;
+		const { options, user, member, client } = interaction;
 		if (
 			(member.roles as GuildMemberRoleManager).cache.some(
 				role => role.name === "DaCoolCorp™"
 			) ||
 			user.id === "368399721494216706"
 		) {
-			new Client({ intents: [Intents.FLAGS.GUILDS] }).user.setPresence({
+			client.user.setPresence({
 				activities: [
 					{
 						name: options.getString("message"),
