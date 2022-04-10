@@ -12,7 +12,7 @@
 		"lint:ci": "prettier --check . && eslint .",
 		"start": "node dist/index.js",
 		"postinstall": "npm run build",
-		"build": "cd src/commands && tsc && cd && cd src && tsc",
+		"build": "cd src/commands && tsc && cd .. && tsc",
 		"tsc": "./node_modules/typescript/bin/tsc"
 	},
 	"dependencies": {
