@@ -75,7 +75,10 @@ module.exports = {
 				await captureWebsite.default
 					.file(message, "test.png", {
 						element: "#docs-editor-container",
-						hideElements: ["div[role='navigation']"]
+						hideElements: ["div[role='navigation']"],
+						launchOptions: {
+							args: ["--no-sandbox", "--disable-setuid-sandbox"]
+						}
 					})
 					.then(() =>
 						interaction.editReply(
