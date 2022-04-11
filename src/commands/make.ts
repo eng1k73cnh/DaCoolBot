@@ -73,7 +73,7 @@ module.exports = {
 					});
 
 				await captureWebsite.default
-					.file(message, "test.png", {
+					.file(message, "dcr.png", {
 						element: "#docs-editor-container",
 						hideElements: ["div[role='navigation']"],
 						launchOptions: {
@@ -87,7 +87,7 @@ module.exports = {
 					);
 				await imgurClient
 					.upload({
-						image: fs.createReadStream("test.png") as unknown as ReadableStream,
+						image: fs.createReadStream("dcr.png") as unknown as ReadableStream,
 						type: "stream"
 					})
 					.then(async response => {
@@ -101,7 +101,7 @@ module.exports = {
 								year: "numeric"
 							})})\n${response.data.link}`
 						);
-						fs.rmSync("test.png", {
+						fs.rmSync("dcr.png", {
 							force: true
 						});
 					})

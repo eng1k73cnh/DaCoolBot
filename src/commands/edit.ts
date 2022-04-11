@@ -103,7 +103,7 @@ module.exports = {
 						await imgurClient
 							.upload({
 								image: fs.createReadStream(
-									"test.png"
+									"dcr.png"
 								) as unknown as ReadableStream,
 								type: "stream"
 							})
@@ -119,7 +119,7 @@ module.exports = {
 									})})\n${response.data.link}`
 								);
 								await interaction.editReply("Successfully edited message");
-								fs.rmSync("test.png", {
+								fs.rmSync("dcr.png", {
 									force: true
 								});
 							})
