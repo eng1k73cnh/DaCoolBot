@@ -9,6 +9,7 @@ import {
 import { ActivityTypes } from "discord.js/typings/enums";
 
 module.exports = {
+	// #region Data property
 	data: new SlashCommandBuilder()
 		.setName("set")
 		.setDescription("Set the bot's presence status")
@@ -49,6 +50,9 @@ module.exports = {
 				.setDescription("Stream link (Youtube/Twitch)")
 				.setRequired(false)
 		),
+	//#endregion
+
+	//#region exectute() function
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isCommand()) return;
 		const { options, user, member, client } = interaction;
@@ -58,6 +62,7 @@ module.exports = {
 			) ||
 			user.id === "368399721494216706"
 		) {
+			// Read discord.js documents for more details
 			client.user.setPresence({
 				activities: [
 					{
@@ -77,4 +82,5 @@ module.exports = {
 			});
 		} else await interaction.reply({ content: "no", ephemeral: true });
 	}
+	//#endregion
 };

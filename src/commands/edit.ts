@@ -5,6 +5,7 @@ import { ImgurClient } from "imgur";
 import fs from "node:fs";
 
 module.exports = {
+	//#region Data property
 	data: new SlashCommandBuilder()
 		.setName("edit")
 		.setDescription("Edit a reminder message")
@@ -36,9 +37,14 @@ module.exports = {
 				)
 				.setRequired(false)
 		),
+	//#endregion
+
+	//#region execute() function
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isCommand()) return;
+
 		const { member, options, user, channel } = interaction;
+
 		if (
 			(member.roles as GuildMemberRoleManager).cache.some(
 				role => role.name === "DaCoolCorp™"
@@ -47,11 +53,16 @@ module.exports = {
 		) {
 			const message = options.getString("message"),
 				note = options.getString("note");
+
+			// Fetch the message with given ID in the same channel as where the interaction was created
 			await channel.messages
 				.fetch(options.getString("id"))
 				.then(async editMessage => {
+					// Check if input string matches Pastebin URL through RegExp pattern
 					if (message.match(/^(http(s)?[:][\\/][\\/])?pastebin[.]com/gm)) {
 						const pastebin = message.split("/");
+
+						//#region Get RAW Pastebin data and edit the message with it
 						axios
 							.get(`https://pastebin.com/raw/${pastebin[pastebin.length - 1]}`)
 							.then(async response => {
@@ -69,7 +80,9 @@ module.exports = {
 									ephemeral: true
 								});
 							});
+						//#endregion
 					} else if (
+						// Check if input string matches Google Spreadsheets URL through RegExp pattern
 						message.match(
 							/^(http(s))?[:][\\/][\\/]docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
 						)
@@ -78,6 +91,9 @@ module.exports = {
 							content: "Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur",
 							ephemeral: true
 						});
+
+						// Dynamically import "capture-website" ES Module in CommonJS
+						// Use Imgur credentials
 						const captureWebsite = await (Function(
 								"return import('capture-website')"
 							)() as Promise<typeof import("capture-website")>),
@@ -86,11 +102,13 @@ module.exports = {
 								clientSecret: process.env.IMGUR_CLIENT_SECRET
 							});
 
+						//#region Take screenshot of the given webpage and save it locally
 						await captureWebsite.default
 							.file(message, "dcr.png", {
 								element: "#docs-editor-container",
 								hideElements: ["div[role='navigation']"],
 								launchOptions: {
+									// --no-sandbox because Heroku does not support it, delete "launchOptions" if deploy elsewhere
 									args: ["--no-sandbox", "--disable-setuid-sandbox"]
 								}
 							})
@@ -99,6 +117,9 @@ module.exports = {
 									"Stage 2/2\n✅ Taken screenshot\n🟦 Uploading to Imgur..."
 								)
 							);
+						//#endregion
+
+						//#region Upload saved image to Imgur using given credentials
 						await imgurClient
 							.upload({
 								image: fs.createReadStream(
@@ -127,6 +148,9 @@ module.exports = {
 									"Stage 2/2\n✅ Taken screenshot\n❎ Failed to upload to Imgur"
 								);
 							});
+						//#endregion
+
+						// Delete screenshot afterwards
 						fs.rmSync("dcr.png", {
 							force: true
 						});
@@ -161,4 +185,5 @@ module.exports = {
 		} else
 			await interaction.reply({ content: "lmao no perms", ephemeral: true });
 	}
+	//#endregion
 };
