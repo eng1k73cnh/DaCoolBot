@@ -62,7 +62,7 @@ module.exports = {
 				)
 			) {
 				await interaction.reply(
-					"Stage 1/2\n[ ] Taking screenshot...\n[ ] Upload to Imgur"
+					"Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur"
 				);
 				const captureWebsite = await (Function(
 						"return import('capture-website')"
@@ -82,9 +82,16 @@ module.exports = {
 					})
 					.then(() =>
 						interaction.editReply(
-							"Stage 2/2\n[x] Taken screenshot\n[ ] Uploading to Imgur..."
+							"Stage 2/2\n✅ Taken screenshot\n🟦 Uploading to Imgur..."
 						)
-					);
+					)
+					.catch(async error => {
+						console.error(error);
+						await interaction.editReply(
+							"Stage 1/2\n❎ Failed to take screenshot\n🟦 Uploading to Imgur..."
+						);
+					});
+
 				await imgurClient
 					.upload({
 						image: fs.createReadStream("dcr.png") as unknown as ReadableStream,
@@ -101,14 +108,16 @@ module.exports = {
 								year: "numeric"
 							})})\n${response.data.link}`
 						);
-						fs.rmSync("dcr.png", {
-							force: true
-						});
 					})
 					.catch(async error => {
 						console.error(error);
-						await interaction.editReply("Failed to upload to Imgur");
+						await interaction.editReply(
+							"Stage 2/2\n✅ Taken screenshot\n❎ Failed to upload to Imgur"
+						);
 					});
+				fs.rmSync("dcr.png", {
+					force: true
+				});
 			} else await interaction.reply(message);
 
 			if (options.getBoolean("mention")) {

@@ -75,8 +75,7 @@ module.exports = {
 						)
 					) {
 						await interaction.reply({
-							content:
-								"Stage 1/2\n[ ] Taking screenshot...\n[ ] Upload to Imgur",
+							content: "Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur",
 							ephemeral: true
 						});
 						const captureWebsite = await (Function(
@@ -97,7 +96,7 @@ module.exports = {
 							})
 							.then(() =>
 								interaction.editReply(
-									"Stage 2/2\n[x] Taken screenshot\n[ ] Uploading to Imgur..."
+									"Stage 2/2\n✅ Taken screenshot\n🟦 Uploading to Imgur..."
 								)
 							);
 						await imgurClient
@@ -118,15 +117,19 @@ module.exports = {
 										year: "numeric"
 									})})\n${response.data.link}`
 								);
-								await interaction.editReply("Successfully edited message");
-								fs.rmSync("dcr.png", {
-									force: true
-								});
+								await interaction.editReply(
+									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
+								);
 							})
 							.catch(async error => {
 								console.error(error);
-								await interaction.editReply("Failed to upload to Imgur");
+								await interaction.editReply(
+									"Stage 2/2\n✅ Taken screenshot\n❎ Failed to upload to Imgur"
+								);
 							});
+						fs.rmSync("dcr.png", {
+							force: true
+						});
 					} else {
 						await editMessage.edit(message);
 						await interaction.reply({
