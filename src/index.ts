@@ -30,15 +30,19 @@ for (const file of commandFiles) {
 	commands.push(require(`./commands/${file}`).data.toJSON());
 }
 
-client.on("guildCreate", guild => {
-	new REST({ version: "9" })
-		.setToken(process.env.TOKEN)
-		.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guild.id), {
+new REST({ version: "9" })
+	.setToken(process.env.TOKEN)
+	.put(
+		Routes.applicationGuildCommands(
+			process.env.CLIENT_ID,
+			process.env.GUILD_ID
+		),
+		{
 			body: commands
-		})
-		.then(() => console.log("Successfully registered application commands."))
-		.catch(console.error);
-});
+		}
+	)
+	.then(() => console.log("Successfully registered application commands."))
+	.catch(console.error);
 
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
