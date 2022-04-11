@@ -17,7 +17,13 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 // Run once when the Client is ready
 client.once("ready", () => {
 	client.user.setPresence({
-		activities: [{ name: "your bathroom", type: "WATCHING" }],
+		activities: [
+			{
+				name: "you",
+				type: "STREAMING",
+				url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+			}
+		],
 		status: "idle"
 	});
 	console.log("Ready!");
