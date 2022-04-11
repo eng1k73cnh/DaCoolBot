@@ -16,7 +16,7 @@ Current build: v2.5.1
 
 ## Demo
 
-![Discord_HK0QDyT0pa](https://user-images.githubusercontent.com/77577746/162233085-abc647ac-b70e-4d45-be41-67b4e0230ef8.gif)
+![Discord_ZZoPo3nwhJ](https://user-images.githubusercontent.com/77577746/162664062-6c89329d-3863-4c98-bb63-066eedae5a12.gif)
 
 ## Usage
 
