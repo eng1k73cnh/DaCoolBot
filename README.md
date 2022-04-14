@@ -3,8 +3,8 @@
 
 Miscellaneous bot made for a local server written in [TypeScript](https://www.typescriptlang.org/) and [discord.js](https://discord.js.org/)
 
-Current build: v2.6.0
- 
+Current build: v2.5.1
+
 <img src="https://img.shields.io/github/deployments/eng1k73cnh/DaCoolBot/dacoolbot?label=heroku&logo=heroku&style=for-the-badge" />
   <div style="display: flex; justify-content: center;"> 
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/codeql-analysis.yml/badge.svg />

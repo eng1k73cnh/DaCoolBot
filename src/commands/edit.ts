@@ -1,10 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-	CacheType,
-	GuildMemberRoleManager,
-	Interaction,
-	MessageEmbed
-} from "discord.js";
+import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
 import axios from "axios";
 import { ImgurClient } from "imgur";
 import fs from "node:fs";
@@ -48,7 +43,7 @@ module.exports = {
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isCommand()) return;
 
-		const { member, options, user, channel, client, guild } = interaction;
+		const { member, options, user, channel } = interaction;
 
 		if (
 			(member.roles as GuildMemberRoleManager).cache.some(
@@ -65,41 +60,13 @@ module.exports = {
 				.then(async editMessage => {
 					// Check if input string matches Pastebin URL through RegExp pattern
 					if (message.match(/^(http(s)?[:][\\/][\\/])?pastebin[.]com/gm)) {
-						const pastebin = message.split("/"),
-							fetchUser = await user.fetch(true);
+						const pastebin = message.split("/");
 
 						//#region Get RAW Pastebin data and edit the message with it
 						axios
 							.get(`https://pastebin.com/raw/${pastebin[pastebin.length - 1]}`)
 							.then(async response => {
-								const embed = new MessageEmbed()
-									.setColor(fetchUser.hexAccentColor || "#f02c4c")
-									.setTitle(
-										`DaCoolReminder (as of ${new Date(
-											Date.now() + 7 * 3600 * 1000
-										).toLocaleString("en-US", {
-											weekday: "long",
-											month: "long",
-											day: "numeric",
-											year: "numeric"
-										})})`
-									)
-									.setURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-									.setAuthor({
-										name: user.tag,
-										iconURL: user.avatarURL({ dynamic: true, size: 4096 })
-									})
-									.setDescription(response.data)
-									.setThumbnail(client.user.avatarURL({ size: 4096 }))
-									.setImage(guild.iconURL({ dynamic: true }))
-									.setFooter({
-										text: "DaCoolBot™️",
-										iconURL: guild.iconURL({ size: 4096, dynamic: true })
-									})
-									.setTimestamp();
-
-								editMessage.edit({ embeds: [embed] });
-
+								editMessage.edit(response.data);
 								await interaction.reply({
 									content: "Successfully edited reminder message",
 									ephemeral: true
@@ -161,42 +128,16 @@ module.exports = {
 								type: "stream"
 							})
 							.then(async response => {
-								const fetchUser = await user.fetch(true),
-									embed = new MessageEmbed()
-										.setColor(fetchUser.hexAccentColor || "#f02c4c")
-										.setTitle(
-											`DaCoolReminder (as of ${new Date(
-												Date.now() + 7 * 3600 * 1000
-											).toLocaleString("en-US", {
-												weekday: "long",
-												month: "long",
-												day: "numeric",
-												year: "numeric"
-											})})`
-										)
-										.setAuthor({
-											name: user.tag,
-											iconURL: user.avatarURL({ dynamic: true, size: 4096 })
-										})
-										.setDescription(
-											`DaCoolReminder (as of ${new Date(
-												Date.now() + 7 * 3600 * 1000
-											).toLocaleString("en-US", {
-												weekday: "long",
-												month: "long",
-												day: "numeric",
-												year: "numeric"
-											})})`
-										)
-										.setThumbnail(client.user.avatarURL({ size: 4096 }))
-										.setImage(response.data.link)
-										.setFooter({
-											text: "DaCoolBot™️",
-											iconURL: guild.iconURL({ size: 4096, dynamic: true })
-										})
-										.setTimestamp();
-
-								await editMessage.edit({ embeds: [embed] });
+								await editMessage.edit(
+									`DaCoolReminder (as of ${new Date(
+										Date.now() + 7 * 3600 * 1000
+									).toLocaleString("en-US", {
+										weekday: "long",
+										month: "long",
+										day: "numeric",
+										year: "numeric"
+									})})\n${response.data.link}`
+								);
 								await interaction.editReply(
 									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
 								);
