@@ -112,9 +112,10 @@ module.exports = {
 					/^(http(s)?[:][\\/][\\/])?docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
 				)
 			) {
-				await interaction.reply(
-					"Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur"
-				);
+				await interaction.reply({
+					content: "Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur",
+					ephemeral: true
+				});
 
 				// Dynamically import "capture-website" ES Module in CommonJS
 				// Use Imgur credentials
@@ -191,8 +192,10 @@ module.exports = {
 									iconURL: client.user.avatarURL({ size: 4096, dynamic: true })
 								})
 								.setTimestamp();
-
-						await interaction.editReply({ embeds: [embed] });
+						await channel.send({ embeds: [embed] });
+						await interaction.editReply(
+							"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
+						);
 					})
 					.catch(async error => {
 						console.error(error);

@@ -216,7 +216,7 @@ module.exports = {
 										})
 										.setTimestamp();
 
-								await editMessage.edit({ content: "", embeds: [embed] });
+								await editMessage.edit({ embeds: [embed] });
 								await interaction.editReply(
 									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
 								);
