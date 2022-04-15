@@ -114,7 +114,7 @@ module.exports = {
 									})
 									.setTimestamp();
 
-								editMessage.edit({ embeds: [embed] });
+								editMessage.edit({ content: "", embeds: [embed] });
 
 								await interaction.reply({
 									content: "Successfully edited reminder message",
@@ -216,7 +216,7 @@ module.exports = {
 										})
 										.setTimestamp();
 
-								await editMessage.edit({ embeds: [embed] });
+								await editMessage.edit({ content: "", embeds: [embed] });
 								await interaction.editReply(
 									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
 								);
