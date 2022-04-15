@@ -1,5 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
+import {
+	CacheType,
+	GuildMemberRoleManager,
+	Interaction,
+	MessageEmbed
+} from "discord.js";
 import axios from "axios";
 import { ImgurClient } from "imgur";
 import fs from "node:fs";
@@ -23,6 +28,12 @@ module.exports = {
 				)
 				.setRequired(true)
 		)
+		.addStringOption(option =>
+			option
+				.setName("image")
+				.setDescription("Image link you want to attach")
+				.setRequired(false)
+		)
 		.addBooleanOption(option =>
 			option
 				.setName("mention")
@@ -43,7 +54,7 @@ module.exports = {
 	async execute(interaction: Interaction<CacheType>) {
 		if (!interaction.isCommand()) return;
 
-		const { member, options, user, channel } = interaction;
+		const { member, options, user, channel, client, guild } = interaction;
 
 		if (
 			(member.roles as GuildMemberRoleManager).cache.some(
@@ -60,13 +71,51 @@ module.exports = {
 				.then(async editMessage => {
 					// Check if input string matches Pastebin URL through RegExp pattern
 					if (message.match(/^(http(s)?[:][\\/][\\/])?pastebin[.]com/gm)) {
-						const pastebin = message.split("/");
+						const pastebin = message.split("/"),
+							fetchUser = await user.fetch(true);
 
 						//#region Get RAW Pastebin data and edit the message with it
 						axios
 							.get(`https://pastebin.com/raw/${pastebin[pastebin.length - 1]}`)
 							.then(async response => {
-								editMessage.edit(response.data);
+								const embed = new MessageEmbed()
+									.setColor(fetchUser.hexAccentColor || "#f02c4c")
+									.setTitle(
+										`DaCoolReminder (as of ${new Date(
+											Date.now() + 7 * 3600 * 1000
+										).toLocaleString("en-US", {
+											weekday: "long",
+											month: "long",
+											day: "numeric",
+											year: "numeric"
+										})})`
+									)
+									.setURL(message)
+									.setAuthor({
+										name: user.tag,
+										iconURL: user.avatarURL({ dynamic: true, size: 4096 })
+									})
+									.setDescription(
+										response.data ||
+											editMessage.embeds[0]?.description ||
+											editMessage.content
+									)
+									.setThumbnail(client.user.avatarURL({ size: 4096 }))
+									.setImage(
+										options.getString("image") ||
+											guild.iconURL({ dynamic: true })
+									)
+									.setFooter({
+										text: "DaCoolBot™️",
+										iconURL: client.user.avatarURL({
+											size: 4096,
+											dynamic: true
+										})
+									})
+									.setTimestamp();
+
+								editMessage.edit({ embeds: [embed] });
+
 								await interaction.reply({
 									content: "Successfully edited reminder message",
 									ephemeral: true
@@ -84,7 +133,7 @@ module.exports = {
 					} else if (
 						// Check if input string matches Google Spreadsheets URL through RegExp pattern
 						message.match(
-							/^(http(s))?[:][\\/][\\/]docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
+							/^(http(s)?[:][\\/][\\/])?docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
 						)
 					) {
 						await interaction.reply({
@@ -128,16 +177,46 @@ module.exports = {
 								type: "stream"
 							})
 							.then(async response => {
-								await editMessage.edit(
-									`DaCoolReminder (as of ${new Date(
-										Date.now() + 7 * 3600 * 1000
-									).toLocaleString("en-US", {
-										weekday: "long",
-										month: "long",
-										day: "numeric",
-										year: "numeric"
-									})})\n${response.data.link}`
-								);
+								const fetchUser = await user.fetch(true),
+									embed = new MessageEmbed()
+										.setColor(fetchUser.hexAccentColor || "#f02c4c")
+										.setTitle(
+											`DaCoolReminder (as of ${new Date(
+												Date.now() + 7 * 3600 * 1000
+											).toLocaleString("en-US", {
+												weekday: "long",
+												month: "long",
+												day: "numeric",
+												year: "numeric"
+											})})`
+										)
+										.setURL(message)
+										.setAuthor({
+											name: user.tag,
+											iconURL: user.avatarURL({ dynamic: true, size: 4096 })
+										})
+										.setDescription(
+											`DaCoolReminder (as of ${new Date(
+												Date.now() + 7 * 3600 * 1000
+											).toLocaleString("en-US", {
+												weekday: "long",
+												month: "long",
+												day: "numeric",
+												year: "numeric"
+											})})`
+										)
+										.setThumbnail(guild.iconURL({ dynamic: true }))
+										.setImage(response.data.link)
+										.setFooter({
+											text: "DaCoolBot™️",
+											iconURL: client.user.avatarURL({
+												size: 4096,
+												dynamic: true
+											})
+										})
+										.setTimestamp();
+
+								await editMessage.edit({ embeds: [embed] });
 								await interaction.editReply(
 									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
 								);
