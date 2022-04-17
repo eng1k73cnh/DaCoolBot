@@ -6,7 +6,7 @@
 	},
 	"license": "GPL-3.0",
 	"repository": "https://github.com/eng1k73cnh/DaCoolBot",
-	"version": "2.6.1",
+	"version": "2.5.1",
 	"scripts": {
 		"lint:ci": "prettier --check . && eslint .",
 		"start": "node dist/index.js",

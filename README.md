@@ -3,10 +3,10 @@
 
 Miscellaneous bot made for a local server written in [TypeScript](https://www.typescriptlang.org/) and [discord.js](https://discord.js.org/)
 
-Current build: v2.6.1
+Current build: v2.5.1
 
 <img src="https://img.shields.io/github/deployments/eng1k73cnh/DaCoolBot/dacoolbot?label=heroku&logo=heroku&style=for-the-badge" />
-  <div style="display: flex; justify-content: center;">
+  <div style="display: flex; justify-content: center;"> 
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/codeql-analysis.yml/badge.svg />
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/build.yml/badge.svg />
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/lint.yml/badge.svg />
@@ -24,20 +24,15 @@ Only supports slash commands for convenience
 
 #### `/make`: Creates a new reminder message
 
-Returns an embed
-
 <details>
 <summary> Options: </summary>
 
 - `message` (string) (required): (Pastebin / Google Spreadsheets URL containing) reminder message content
-
-  - Returns RAW Pastebin content for embed description if provided a Pastebin URL
+  - Returns RAW Pastebin content if provided a Pastebin URL
     - Utilizes [axios](https://github.com/axios/axios)
-  - Returns a screenshot of the spreadsheet as embed image if provided a Google Spreadsheets URL _(note: This will render the image link given in command unused)_
+  - Returns a screenshot of the spreadsheet if provided a Google Spreadsheets URL
     - Utilizes [capture-website](https://github.com/sindresorhus/capture-website) and [imgur](https://github.com/KenEucker/imgur)
   - Else returns the given message content
-
-- `image` (string): Image link for embed, default will be server's icon if not specified
 - `mention` (boolean): Mentions everyone after a message is created
   - Default output:
   ```typescript
@@ -56,19 +51,16 @@ Returns an embed
 
 #### `/edit`: Edit an existing reminder message
 
-Returns an embed
-
 <details>
 <summary> Options: </summary>
 
 - `id` (string) (required): ID of the message that needs to be edited
 - `message` (string) (required): (Pastebin / Google Spreadsheets URL containing) reminder message content
-  - Returns RAW Pastebin content as embed description if provided a Pastebin URL
+  - Returns RAW Pastebin content if provided a Pastebin URL
     - Utilizes [axios](https://github.com/axios/axios)
-  - Returns a screenshot of the spreadsheet as embed image if provided a Google Spreadsheets URL _(note: This will render the image link given in command unused)_
+  - Returns a screenshot of the spreadsheet if provided a Google Spreadsheets URL
     - Utilizes [capture-website](https://github.com/sindresorhus/capture-website) and [imgur](https://github.com/KenEucker/imgur)
   - Else returns the given message content
-- `image` (string): Image link for embed, default will be server's icon if not specified
 - `mention` (boolean): Mentions everyone after a message is created
   - Default output:
   ```typescript
