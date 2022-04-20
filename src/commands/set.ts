@@ -17,13 +17,13 @@ module.exports = {
 			option
 				.setName("type")
 				.setDescription("Activity type")
-				.addChoices([
-					["Playing", "PLAYING"],
-					["Watching", "WATCHING"],
-					["Streaming", "STREAMING"],
-					["Listening to", "LISTENING"],
-					["Competing", "COMPETING"]
-				])
+				.addChoices(
+					{ name: "Playing", value: "PLAYING" },
+					{ name: "Watching", value: "WATCHING" },
+					{ name: "Streaming", value: "STREAMING" },
+					{ name: "Listening to", value: "LISTENING" },
+					{ name: "Competing", value: "COMPETING" }
+				)
 				.setRequired(true)
 		)
 		.addStringOption(option =>
@@ -37,12 +37,12 @@ module.exports = {
 				.setName("status")
 				.setDescription("Bot's status")
 				.setRequired(true)
-				.addChoices([
-					["Do Not Disturb", "dnd"],
-					["Idle", "idle"],
-					["Invisible", "invisible"],
-					["Online", "online"]
-				])
+				.addChoices(
+					{ name: "Do Not Disturb", value: "dnd" },
+					{ name: "Invisible", value: "invisible" },
+					{ name: "Idle", value: "idle" },
+					{ name: "Online", value: "online" }
+				)
 		)
 		.addStringOption(option =>
 			option
