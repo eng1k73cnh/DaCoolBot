@@ -23,10 +23,14 @@ module.exports = {
 				)
 				.setRequired(true)
 		)
-		.addBooleanOption(option =>
+		.addStringOption(option =>
 			option
 				.setName("mention")
 				.setDescription("Mention everyone after the message is created")
+				.addChoices(
+					{ name: "Everyone", value: "@everyone" },
+					{ name: "Selected Soldiers", value: "<@&824591436975570985>" }
+				)
 				.setRequired(false)
 		)
 		.addStringOption(option =>
@@ -169,8 +173,10 @@ module.exports = {
 						ephemeral: true
 					});
 				});
-			if (options.getBoolean("mention")) {
-				let mentionMsg = `@everyone DaCoolReminder is updated for ${new Date(
+			if (options.getString("mention")) {
+				let mentionMsg = `${options.getString(
+					"mention"
+				)} DaCoolReminder is updated for ${new Date(
 					Date.now() + 7 * 3600 * 1000
 				).toLocaleString("en-US", {
 					weekday: "long",
