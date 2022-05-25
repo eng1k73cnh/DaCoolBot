@@ -1,17 +1,43 @@
-name: Deploy
+name: Deploy Node.js project to Azure Function App
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
+
+# CONFIGURATION
+# For help, go to https://github.com/Azure/Actions
+#
+# 1. Set up the following secrets in your repository:
+#   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
+#
+# 2. Change these variables for your configuration:
+env:
+  AZURE_FUNCTIONAPP_NAME: dacoolbot # set this to your application's name
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: "16.x" # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@master
+
+      - name: Setup Node ${{ env.NODE_VERSION }} Environment
+        uses: actions/setup-node@v3.1.0
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "dacoolbot"
-          heroku_email: "phamnamanh25@gmail.com"
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: "Resolve Project Dependencies Using Yarn"
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          yarn build
+          yarn
+      - name: "Run Azure Functions Action"
+        uses: Azure/functions-action@master
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
