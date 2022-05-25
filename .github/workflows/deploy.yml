@@ -26,13 +26,14 @@ jobs:
         uses: actions/setup-node@v3.1.0
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
 
       - name: "Resolve Project Dependencies Using Yarn"
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          yarn build
           yarn
+          yarn build
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@master
         id: fa
