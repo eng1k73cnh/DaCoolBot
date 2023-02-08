@@ -6,7 +6,6 @@ import { Routes } from "discord-api-types/v9";
 import { Client, Collection, Intents } from "discord.js";
 import * as dotenv from "dotenv";
 import fs from "node:fs";
-import express from "express";
 // #endregion
 
 // Environment variable usage
@@ -85,22 +84,3 @@ client.on("interactionCreate", async interaction => {
 
 // Log in as user
 client.login(process.env.TOKEN);
-
-// Own API
-const app = express();
-
-app.get("/", (req, res) => {
-	const rest = new REST({ version: "9" }).setToken(process.env.TOKEN),
-		fetchUser = async id => rest.get(Routes.user(id));
-
-	if (!req.query.id) return res.send("No ID provided");
-	// Return user info
-	fetchUser(req.query.id)
-		.then(user => res.send(user))
-		.catch(err => res.send(err));
-});
-
-// Start the server
-app.listen(process.env.PORT || 5000, () => {
-	console.log("Server started");
-});
