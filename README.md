@@ -6,7 +6,7 @@ Miscellaneous bot made for a local server written in [TypeScript](https://www.ty
 Current build: v2.5.1
 
 <img src="https://img.shields.io/github/deployments/eng1k73cnh/DaCoolBot/dacoolbot?label=heroku&logo=heroku&style=for-the-badge" />
-  <div style="display: flex; justify-content: center;"> 
+  <div style="display: flex; justify-content: center;">
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/codeql-analysis.yml/badge.svg />
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/build.yml/badge.svg />
     <img src=https://github.com/eng1k73cnh/DaCoolBot/actions/workflows/lint.yml/badge.svg />
@@ -30,8 +30,6 @@ Only supports slash commands for convenience
 - `message` (string) (required): (Pastebin / Google Spreadsheets URL containing) reminder message content
   - Returns RAW Pastebin content if provided a Pastebin URL
     - Utilizes [axios](https://github.com/axios/axios)
-  - Returns a screenshot of the spreadsheet if provided a Google Spreadsheets URL
-    - Utilizes [capture-website](https://github.com/sindresorhus/capture-website) and [imgur](https://github.com/KenEucker/imgur)
   - Else returns the given message content
 - `mention` (boolean): Mentions everyone after a message is created
   - Default output:
@@ -58,8 +56,6 @@ Only supports slash commands for convenience
 - `message` (string) (required): (Pastebin / Google Spreadsheets URL containing) reminder message content
   - Returns RAW Pastebin content if provided a Pastebin URL
     - Utilizes [axios](https://github.com/axios/axios)
-  - Returns a screenshot of the spreadsheet if provided a Google Spreadsheets URL
-    - Utilizes [capture-website](https://github.com/sindresorhus/capture-website) and [imgur](https://github.com/KenEucker/imgur)
   - Else returns the given message content
 - `mention` (boolean): Mentions everyone after a message is created
   - Default output:

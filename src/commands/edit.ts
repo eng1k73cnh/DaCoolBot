@@ -1,8 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, GuildMemberRoleManager, Interaction } from "discord.js";
 import axios from "axios";
-import { ImgurClient } from "imgur";
-import fs from "node:fs";
 
 module.exports = {
 	//#region Data property
@@ -85,79 +83,6 @@ module.exports = {
 								});
 							});
 						//#endregion
-					} else if (
-						// Check if input string matches Google Spreadsheets URL through RegExp pattern
-						message.match(
-							/^(http(s))?[:][\\/][\\/]docs[.]google[.]com[\\/]spreadsheets[\\/]*/gm
-						)
-					) {
-						await interaction.reply({
-							content: "Stage 1/2\n🟦 Taking screenshot...\n🟦 Upload to Imgur",
-							ephemeral: true
-						});
-
-						// Dynamically import "capture-website" ES Module in CommonJS
-						// Use Imgur credentials
-						const captureWebsite = await (Function(
-								"return import('capture-website')"
-							)() as Promise<typeof import("capture-website")>),
-							imgurClient = new ImgurClient({
-								clientId: process.env.IMGUR_CLIENT_ID,
-								clientSecret: process.env.IMGUR_CLIENT_SECRET
-							});
-
-						//#region Take screenshot of the given webpage and save it locally
-						await captureWebsite.default
-							.file(message, "dcr.png", {
-								element: "#docs-editor-container",
-								hideElements: ["div[role='navigation']"],
-								launchOptions: {
-									// --no-sandbox because Heroku does not support it, delete "launchOptions" if deploy elsewhere
-									args: ["--no-sandbox", "--disable-setuid-sandbox"]
-								}
-							})
-							.then(() =>
-								interaction.editReply(
-									"Stage 2/2\n✅ Taken screenshot\n🟦 Uploading to Imgur..."
-								)
-							);
-						//#endregion
-
-						//#region Upload saved image to Imgur using given credentials
-						await imgurClient
-							.upload({
-								image: fs.createReadStream(
-									"dcr.png"
-								) as unknown as ReadableStream,
-								type: "stream"
-							})
-							.then(async response => {
-								await editMessage.edit(
-									`DaCoolReminder (as of ${new Date(
-										Date.now() + 7 * 3600 * 1000
-									).toLocaleString("en-US", {
-										weekday: "long",
-										month: "long",
-										day: "numeric",
-										year: "numeric"
-									})})\n${response.data.link}`
-								);
-								await interaction.editReply(
-									"Successfully edited message\n✅ Taken screenshot\n✅ Uploaded to Imgur"
-								);
-							})
-							.catch(async error => {
-								console.error(error);
-								await interaction.editReply(
-									"Stage 2/2\n✅ Taken screenshot\n❎ Failed to upload to Imgur"
-								);
-							});
-						//#endregion
-
-						// Delete screenshot afterwards
-						fs.rmSync("dcr.png", {
-							force: true
-						});
 					} else {
 						await editMessage.edit(message);
 						await interaction.reply({
