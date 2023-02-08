@@ -87,8 +87,9 @@ client.on("interactionCreate", async interaction => {
 client.login(process.env.TOKEN);
 
 // Own API
+const app = express();
 
-express().get("/", (req, res) => {
+app.get("/", (req, res) => {
 	const rest = new REST({ version: "9" }).setToken(process.env.TOKEN),
 		fetchUser = async id => rest.get(Routes.user(id));
 
@@ -96,4 +97,9 @@ express().get("/", (req, res) => {
 	fetchUser(req.query.id)
 		.then(user => res.send(user))
 		.catch(err => res.send(err));
+});
+
+// Start the server
+app.listen(8080, () => {
+	console.log("Server started");
 });
