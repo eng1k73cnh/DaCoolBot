@@ -101,6 +101,6 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-app.listen(80, () => {
+app.listen(process.env.PORT || 5000, () => {
 	console.log("Server started");
 });
