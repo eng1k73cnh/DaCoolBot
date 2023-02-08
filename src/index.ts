@@ -93,6 +93,7 @@ app.get("/", (req, res) => {
 	const rest = new REST({ version: "9" }).setToken(process.env.TOKEN),
 		fetchUser = async id => rest.get(Routes.user(id));
 
+	console.log(req.query.id);
 	// Return user info
 	fetchUser(req.query.id)
 		.then(user => res.send(user))
@@ -100,6 +101,6 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-app.listen(8080, () => {
+app.listen(80, () => {
 	console.log("Server started");
 });
