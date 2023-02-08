@@ -93,7 +93,7 @@ app.get("/", (req, res) => {
 	const rest = new REST({ version: "9" }).setToken(process.env.TOKEN),
 		fetchUser = async id => rest.get(Routes.user(id));
 
-	console.log(req.query.id);
+	if (!req.query.id) return res.send("No ID provided");
 	// Return user info
 	fetchUser(req.query.id)
 		.then(user => res.send(user))
