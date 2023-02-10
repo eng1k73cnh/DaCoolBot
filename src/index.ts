@@ -16,6 +16,15 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 // Run once when the Client is ready
 client.once("ready", () => {
+	const Guilds = client.guilds.cache.map(guild => guild.id);
+	for (const guild of Guilds) {
+		new REST({ version: "9" })
+			.setToken(process.env.TOKEN)
+			.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guild), {
+				body: commands
+			});
+	}
+
 	client.user.setPresence({
 		activities: [
 			{
@@ -45,22 +54,6 @@ for (const file of commandFiles) {
 }
 //#endregion
 
-//#region Automatically register appication command upon deploy
-new REST({ version: "9" })
-	.setToken(process.env.TOKEN)
-	.put(
-		Routes.applicationGuildCommands(
-			process.env.CLIENT_ID,
-			process.env.GUILD_ID
-		),
-		{
-			body: commands
-		}
-	)
-	.then(() => console.log("Successfully registered application commands."))
-	.catch(console.error);
-//#endregion
-
 //#region Receive slash command input
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
@@ -81,6 +74,19 @@ client.on("interactionCreate", async interaction => {
 	}
 });
 //#endregion
+
+client.on("guildCreate", guild =>
+	new REST({ version: "9" })
+		.setToken(process.env.TOKEN)
+		.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guild.id), {
+			body: commands
+		})
+		.then(() =>
+			console.log(
+				`Successfully registered application commands for guild ${guild.name}`
+			)
+		)
+);
 
 // Log in as user
 client.login(process.env.TOKEN);
