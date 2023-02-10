@@ -1,6 +1,7 @@
 {
 	"exclude": ["node_modules"],
 	"compilerOptions": {
+		"skipLibCheck": true,
 		"outDir": "./dist/",
 		"typeRoots": ["node_modules/@types"],
 		"resolveJsonModule": true,
