@@ -44,8 +44,7 @@ module.exports = {
 		await redis.hset("shortened", randomString, url);
 
 		await interaction.reply({
-			content: `Shortened URL: https://api.kyrie25.dev/shorten/${randomString}`,
-			ephemeral: true
+			content: `Shortened URL: https://api.kyrie25.dev/shorten/${randomString}`
 		});
 	}
 	//#endregion
