@@ -1,13 +1,16 @@
 [Unit]
 Description=Dacoolbot
 After=network.target
-StartLimitIntervalSec=0
+StartLimitBurst=5
+StartLimitIntervalSec=10
+StartLimitAction=reboot
 
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
 RestartSec=1
 User=root
+WorkingDirectory=/root/DaCoolBot
 ExecStart=/root/.nvm/versions/node/v20.18.0/bin/node /root/DaCoolBot/dist/index.js
 
 [Install]
