@@ -33,7 +33,7 @@ module.exports = {
 
 		// Generate a random 6-character string
 		let randomString = Math.random().toString(36).substring(2, 8);
-		let table = await redis.hget("shortened", url);
+		let table = await redis.hget("shortened", randomString);
 
 		while (table) {
 			randomString = Math.random().toString(36).substring(2, 8);
