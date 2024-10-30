@@ -1,0 +1,14 @@
+[Unit]
+Description=Dacoolbot
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/root/.nvm/versions/node/v20.18.0/bin/node /root/DaCoolBot/dist/index.js
+
+[Install]
+WantedBy=multi-user.target

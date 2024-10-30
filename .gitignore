@@ -10,3 +10,7 @@ dist
 # Environment files
 config.json
 .env*
+
+# Yarn
+.yarn/*
+.yarn-integrity
